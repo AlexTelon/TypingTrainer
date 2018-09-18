@@ -5,27 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using TypingTrainer.TextGenerator;
 using TypingTrainer.Utils;
 
 namespace TypingTrainer
 {
     class MainWindowViewModel : BindableBase
     {
-
-        //public MainWindowViewModel()
-        //{
-        //    EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyUpEvent, new KeyEventHandler(KeyUp), true);
-        //}
-
-        //private void KeyUp(object sender, KeyEventArgs e)
-        //{
-        //    Console.WriteLine(e.Key);
-        //    //e.SystemKey
-        //}
-
         public MainWindowViewModel()
         {
-            CurrentChallenge = "Write this if you can!";
+            CurrentChallenge = TextFromSourceCode.GetPartOfSourceCode(new Random());
         }
 
         public int TotalCorrect
@@ -69,7 +58,6 @@ namespace TypingTrainer
             {
                 Set(value);
                 CheckSolutionSoFar();
-                //CheckSolution();
             }
         }
 
@@ -97,33 +85,8 @@ namespace TypingTrainer
                 Correct = true;
                 TotalCorrect++;
                 UserInput = "";
-            }
-        }
 
-        private void CheckSolution()
-        {
-            Correct = IsCorrect(UserInput, CurrentChallenge);
-
-            if (Correct)
-            {
-                // evolve the challenge
-                CurrentChallenge += "1";
-            }
-        }
-
-        /// <summary>
-        /// Checks 
-        /// </summary>
-        private static bool IsCorrect(string a, string b)
-        {
-            try
-            {
-                return string.Equals(a, b);
-            }
-            catch (Exception e)
-            {
-                throw;
-                //return false;
+                CurrentChallenge = TextFromSourceCode.GetPartOfSourceCode(new Random());
             }
         }
     }
